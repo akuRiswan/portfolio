@@ -3,382 +3,168 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Portfolio</title>
-    <!-- CSS -->
+    <title>Riswan | Portfolio</title>
     <link rel="stylesheet" href="assets/css/styles.css" />
-
-    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Bootsrap icon -->
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
-
-    <!-- Font Awasome icon -->
-    <script src="https://kit.fontawesome.com/c282767fb8.js" crossorigin="anonymous"></script>
   </head>
 
-  <body>
-    <div id="pin-wrapper" class="container h-[900vh] relative">
-      <!-- Navbar -->
-      <nav class="p-4 fixed w-full z-10 flex justify-between items-center text-black bg-white/30 backdrop-blur-sm">
-        <div class="logo text-2xl font-bold max-md:mx-5 md:mx-20">
+  <body class="bg-white text-black overflow-x-hidden">
+    <div id="pin-wrapper" class="relative h-[1200vh]">
+      <nav class="fixed top-0 w-full z-[100] flex justify-between items-center p-6 md:px-20 bg-white/30 backdrop-blur-md">
+        <div class="logo text-2xl font-bold tracking-tighter">
           <a href="#home" class="nav-link">Riswan</a>
         </div>
 
-        <!-- Social Media -->
-        <div class="social-media mx-20 flex gap-5 text-xl max-md:mx-5 items-center">
-          <!-- Nav -->
-          <!-- Home -->
-          <a href="#home" class="nav-link text-base hover:text-gray-500 transition-colors">Home</a>
-          <!-- Aboutme -->
-          <a href="#aboutme" class="nav-link text-base hover:text-gray-500 transition-colors">About</a>
-          <!-- Project -->
-          <a href="#project" class="nav-link text-base hover:text-gray-500 transition-colors">Project</a>
-          <!-- Skills -->
-          <a href="#skills" class="nav-link text-base hover:text-gray-500 transition-colors">Skills</a>
-          <!-- Contact -->
-          <a href="#contact" class="nav-link text-base hover:text-gray-500 transition-colors">Contact</a>
-
-          <div class="w-[1px] h-6 bg-gray-400"></div>
-
-          <!-- <a href="https://www.instagram.com/mriswansyh/" target="_blank" class="hover:text-gray-500 transition-colors">
-            <i class="bi bi-instagram"></i>
-          </a>
-          <a href="https://github.com/username-anda" target="_blank" class="hover:text-gray-500 transition-colors">
-            <i class="bi bi-github"></i>
-          </a>
-          <a href="#" target="_blank" class="hover:text-gray-500 transition-colors">
-            <i class="bi bi-discord"></i>
-          </a> -->
-
-          <a
-            href="#"
-            class="flex gap-2 items-center hover:cursor-pointer hover:bg-gray-800 transition-all duration-300 bg-black text-white py-1.5 px-5 rounded-2xl"
-          >
-            <i class="bi bi-file-person-fill"></i>
-            <p class="text-sm">Download CV</p>
+        <div class="hidden lg:flex items-center gap-8 text-sm font-medium">
+          <a href="#home" class="nav-link hover:text-gray-500">Home</a>
+          <a href="#aboutme" class="nav-link hover:text-gray-500">About</a>
+          <a href="#project" class="nav-link hover:text-gray-500">Project</a>
+          <a href="#skills" class="nav-link hover:text-gray-500">Skills</a>
+          <a href="#contact" class="nav-link hover:text-gray-500">Contact</a>
+          <div class="w-[1px] h-6 bg-gray-300"></div>
+          <a href="#" class="bg-black text-white px-6 py-2 rounded-full flex items-center gap-2">
+            <i class="bi bi-file-person-fill"></i> Download CV
           </a>
         </div>
+
+        <button id="menu-toggle" class="lg:hidden text-3xl focus:outline-none z-[110]">
+          <i class="bi bi-list" id="menu-icon"></i>
+        </button>
       </nav>
 
+      <div
+        id="mobile-menu"
+        class="fixed inset-0 bg-white z-[105] flex flex-col items-center justify-center gap-8 text-2xl font-bold translate-x-full transition-transform duration-500"
+      >
+        <a href="#home" class="mobile-nav-link">Home</a>
+        <a href="#aboutme" class="mobile-nav-link">About</a>
+        <a href="#project" class="mobile-nav-link">Project</a>
+        <a href="#skills" class="mobile-nav-link">Skills</a>
+        <a href="#contact" class="mobile-nav-link">Contact</a>
+      </div>
+
       <div class="wrapper-sticky sticky top-0 w-full h-screen overflow-hidden">
-        <!-- Home Page -->
-        <section id="home" class="h-screen sticky">
-          <!-- wrapper -->
-          <div
-            class="flex gap-7 md:ml-20 items-end md:h-[85%] max-md:flex-col max-md:items-start max-md:justify-center max-md:h-screen max-md:ml-10"
-          >
-            <!-- Title - Home-->
-            <div class="title">
-              <h1 class="fontEncode text-[10rem] leading-35 font-medium max-md:text-[5rem] max-md:leading-20">
+        <section id="home" class="stack-section active-section">
+          <div class="flex flex-col md:flex-row items-center md:items-end md:mb-60 md:h-full px-6 md:px-20 gap-8 w-full justify-between">
+            <div class="flex md:items-end md:gap-8 md:flex-row flex-col gap-10">
+              <h1 class="fontEncode text-6xl md:text-[10rem] font-medium leading-none text-center md:text-left">
                 Web <br />
                 Developer
               </h1>
-            </div>
-            <!-- Description - Home -->
-            <div class="description w-1/5 max-md:w-1/2">
-              <p class="text-base text-justify">Building modern, scalable, and responsive web applications as a Full-Stack Developer</p>
+              <p class="max-w-xs text-sm md:text-justify text-gray-600 md:mb-5 text-center">
+                Building modern, scalable, and responsive web applications as a Full-Stack Developer.
+              </p>
             </div>
           </div>
         </section>
 
-        <!-- About -->
-        <section id="aboutme" class="h-screen sticky opacity-0 max-md:h-auto" style="transform: scale(0.1)">
-          <div
-            class="flex flex-row w-full h-full items-center justify-center gap-12 px-8 max-md:flex-col max-md:h-auto max-md:py-24 max-md:px-6"
-          >
+        <section id="aboutme" class="stack-section">
+          <div class="flex flex-col md:flex-row md:items-center max-md:justify-center w-full h-full px-8 md:px-20 gap-10">
             <div
-              class="bg-[url(assets/img/riswan.jpeg)] bg-cover bg-no-repeat w-1/3 h-[60vh] bg-center shadow-[oklch(0_0_0_/0.5)] shadow-lg rounded-lg max-md:w-11/12 max-md:h-[45vh] max-md:mr-0"
+              class="w-full md:w-1/3 h-[40vh] md:h-[60vh] bg-[url('assets/img/riswan.jpeg')] bg-cover bg-no-repeat bg-center rounded-2xl shadow-xl"
             ></div>
+            <div class="w-full md:w-1/2">
+              <h2 class="text-4xl md:text-7xl font-bold mb-6">About Me</h2>
+              <p class="text-sm md:text-base text-gray-700 leading-relaxed text-justify">
+                I am a student at Vocational High School 2 Banjarmasin, majoring in Software Development. I am an active member of OSIS,
+                where I hone soft skills like teamwork and problem-solving.
+              </p>
+            </div>
+          </div>
+        </section>
 
-            <div class="txt-aboutme flex-col w-1/2 max-md:w-full">
-              <div class="title">
-                <h2 class="text-[5rem] font-bold max-md:text-5xl max-md:text-left">About Me</h2>
+        <section id="project" class="stack-section">
+          <div class="w-full px-6 md:px-20 relative">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8">
+              <h2 class="text-4xl md:text-8xl font-bold mb-3">Projects</h2>
+
+              <div class="hidden md:flex gap-4 mb-4">
+                <button
+                  id="prev-btn"
+                  class="w-12 h-12 rounded-full border border-black flex items-center justify-center hover:bg-black hover:text-white transition-all cursor-pointer"
+                >
+                  <i class="bi bi-arrow-left"></i>
+                </button>
+                <button
+                  id="next-btn"
+                  class="w-12 h-12 rounded-full border border-black flex items-center justify-center hover:bg-black hover:text-white transition-all cursor-pointer"
+                >
+                  <i class="bi bi-arrow-right"></i>
+                </button>
               </div>
+            </div>
 
-              <div class="description">
-                <p class="text-base text-justify max-md:text-sm max-md:text-justify">
-                  I am a student at Vocational High School 2 Banjarmasin, majoring in Software Development. I have a deep passion for
-                  technology, with a primary focus on Web Development. Beyond my academic studies, I am also an active member of
-                  Intra-School Students Organization, where I hone essential soft skills like communication, teamwork, and problem-solving,
-                  which I believe are highly valuable to my passion for technology.
-                </p>
+            <div
+              id="project-list"
+              class="flex overflow-x-auto gap-6 pb-10 no-scrollbar cursor-grab active:cursor-grabbing select-none"
+            ></div>
+          </div>
+        </section>
+
+        <section id="skills" class="stack-section">
+          <div class="w-full px-8 md:px-20">
+            <h2 class="text-4xl md:text-8xl font-bold mb-14">Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+              <div class="space-y-4">
+                <i class="bi bi-pc-display-horizontal text-4xl"></i>
+                <h3 class="text-2xl font-bold">UI & UX Design</h3>
+                <p class="text-sm text-gray-600">Creating intuitive interfaces using tools like Figma.</p>
+              </div>
+              <div class="space-y-4">
+                <i class="bi bi-pc-display text-4xl"></i>
+                <h3 class="text-2xl font-bold">Web Development</h3>
+                <p class="text-sm text-gray-600">Building robust applications with Tailwind and JavaScript.</p>
+              </div>
+              <div class="space-y-4">
+                <i class="bi bi-stars text-4xl"></i>
+                <h3 class="text-2xl font-bold">Creative Design</h3>
+                <p class="text-sm text-gray-600">Crafting visual identities for various digital needs.</p>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- Project -->
-        <section id="project" class="h-screen sticky opacity-0" style="transform: scale(0.2)">
-          <!-- container -->
-          <div class="flex flex-row w-full h-full items-center justify-between">
-            <!-- wrapper -->
-            <div class="flex-col w-[85%] ml-20">
-              <!-- Title - Projects -->
-              <div class="title">
-                <h2 class="text-[5rem] font-bold">Projects</h2>
-              </div>
-              <!--  -->
-              <!-- Description (card) - Project -->
-              <div class="card-wrapper flex flex-row gap-5 w-full h-[45vh] mt-5">
-                <!-- card 1 -->
-                <div
-                  class="group card-project relative overflow-hidden rounded-xl bg-[url(assets/img/project-2.jpg)] bg-center bg-cover bg-no-repeat h-full w-[80%]"
-                >
-                  <!-- card-text 1 -->
-                  <div class="card-text text-white px-5 mb-0 h-full rounded-xl">
-                    <div class="flex flex-col justify-end h-full pb-5">
-                      <!-- card-title 1 -->
-                      <div class="max-2word card-title text-[1.7rem] font-medium leading-7">Digital Invitation</div>
-                      <!-- card-description 1 -->
-                      <div class="max-20word card-description text-[.6rem] text-justify">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, totam quod labore voluptatibus facere ipsam
-                        temporibus aperiam aliquam ratione, aliquid itaque mollitia.
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- hover card project 1 -->
-                  <div
-                    class="project-overlay absolute inset-0 flex flex-col justify-center items-center bg-[#0000008b] bg-opacity-70 opacity-0 transition-opacity duration-300"
-                  >
-                    <!-- link project 1 -->
-                    <span class="text-white text-2xl font-bold"><a href="https://www.youtube.com/" target="_blank">Check It!</a></span>
-                  </div>
-                </div>
-
-                <!-- card 2 -->
-                <div
-                  class="group card-project relative overflow-hidden rounded-xl bg-[url(assets/img/project-1.jpg)] bg-center bg-cover bg-no-repeat h-full w-[80%]"
-                >
-                  <!-- card-text 2 -->
-                  <div class="card-text text-white px-5 mb-0 h-full rounded-xl">
-                    <div class="flex flex-col justify-end h-full pb-5">
-                      <!-- card-title 2 -->
-                      <div class="card-title text-[1.7rem] font-medium leading-7">Project 2</div>
-                      <!-- card-description 2 -->
-                      <div class="max-20word card-description text-[.6rem] text-justify">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, totam quod labore voluptatibus facere ipsam
-                        temporibus aperiam aliquam ratione, aliquid itaque mollitia.
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- hover card project 2 -->
-                  <div
-                    class="project-overlay absolute inset-0 flex flex-col justify-center items-center bg-[#0000008b] bg-opacity-70 opacity-0 transition-opacity duration-300"
-                  >
-                    <!-- link project 2 -->
-                    <span class="text-white text-2xl font-bold"><a href="https://www.youtube.com/" target="_blank">Check It!</a></span>
-                  </div>
-                </div>
-
-                <!-- card 3 -->
-                <div
-                  class="group card-project relative overflow-hidden rounded-xl bg-[url(assets/img/project-1.jpg)] bg-center bg-cover bg-no-repeat h-full w-[80%]"
-                >
-                  <!-- card-text 3 -->
-                  <div class="card-text text-white px-5 mb-0 h-full rounded-xl">
-                    <div class="flex flex-col justify-end h-full pb-5">
-                      <!-- card-title 3 -->
-                      <div class="card-title text-[1.7rem] font-medium leading-7">Project 3</div>
-                      <!-- card-description 3 -->
-                      <div class="max-20word card-description text-[.6rem] text-justify">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, totam quod labore voluptatibus facere ipsam
-                        temporibus aperiam aliquam ratione, aliquid itaque mollitia.
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- hover card project 3 -->
-                  <div
-                    class="project-overlay absolute inset-0 flex flex-col justify-center items-center bg-[#0000008b] bg-opacity-70 opacity-0 transition-opacity duration-300"
-                  >
-                    <!-- link project 3 -->
-                    <span class="text-white text-2xl font-bold"><a href="https://www.youtube.com/" target="_blank">Check It!</a></span>
-                  </div>
-                </div>
-
-                <!-- text on the right side -->
-                <div class="rside-proejct">
-                  <p class="text-justify mb-5">
-                    <span class="dropcap">E</span>
-                    ach project I create is born from ideas and <strong>exploration</strong>, aiming to deliver creative and meaningful
-                    solutions. From UI/UX design, web applications, to system development that supports daily needs, I approach every
-                    project with purpose and detail. I believe each one is a learning journey that takes me a step further.
-                  </p>
-                  <button
-                    class="bg-black rounded-md px-3 py-2 flex items-center justify-center hover:bg-[#303030] hover:scale-105 transition-all duration-300 hover:cursor-pointer"
-                  >
-                    <a href="https://www.youtube.com/" target="_blank" class="text-white text-sm">More projects (coming soon)</a>
-                  </button>
-                </div>
-
-                <!-- card - end -->
-              </div>
-              <!-- wrapper - end -->
+        <section id="contact" class="stack-section">
+          <div class="flex flex-col md:flex-row max-w-5xl w-full mx-6 bg-gray-50 rounded-3xl overflow-hidden shadow-2xl">
+            <div class="w-full md:w-1/2 p-10 md:p-16">
+              <form class="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  class="w-full p-4 border-b bg-transparent outline-none focus:border-black transition-colors"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  class="w-full p-4 border-b bg-transparent outline-none focus:border-black transition-colors"
+                />
+                <textarea
+                  placeholder="Message"
+                  rows="2"
+                  class="w-full p-4 border-b bg-transparent outline-none focus:border-black transition-colors resize-none"
+                ></textarea>
+                <button class="w-full py-4 bg-black text-white rounded-full font-bold text-xs uppercase tracking-widest mt-4">
+                  Send Message
+                </button>
+              </form>
             </div>
-            <!-- container - end -->
+            <div class="w-full md:w-1/2 p-10 flex flex-col justify-center items-center text-center bg-black text-white">
+              <h2 class="text-4xl md:text-6xl font-bold mb-4">Thank You</h2>
+              <div class="flex gap-8 text-2xl mt-6">
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-github"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
           </div>
         </section>
       </div>
-
-      <!-- Skills -->
-      <section id="skills" class="h-screen sticky opacity-0 -z-10" style="transform: scale(0.1)">
-        <!-- wrapper -->
-        <div class="flex flex-col justify-center h-full ml-20">
-          <!-- Title - Skills -->
-          <div class="title">
-            <h2 class="text-[5rem] font-bold">Skills</h2>
-          </div>
-
-          <!-- wrapper card skills -->
-          <div class="wrapper-skills flex justify-between mt-10 w-[70%]">
-            <div class="card-skills w-3xs">
-              <i class="bi bi-pc-display-horizontal text-4xl"></i>
-              <h2 class="text-2xl">UI & UX Design</h2>
-              <p class="text-[.83rem] text-justify">
-                I design interfaces that are not only visually appealing but also intuitive, efficient, and enjoyable to use. My focus is on
-                creating seamless user experiences from research, wireframing, to interactive prototypes.
-              </p>
-            </div>
-
-            <!-- card 2 -->
-            <div class="card-skills w-3xs">
-              <i class="bi bi-pc-display text-4xl"></i>
-              <h2 class="text-2xl">Web Development</h2>
-              <p class="text-[.83rem] text-justify">
-                I transform ideas and designs into functional and responsive web and mobile applications. I build robust, fast, and reliable
-                digital products from front-end to back-end.
-              </p>
-            </div>
-
-            <!-- card 3 -->
-            <div class="card-skills w-3xs">
-              <i class="bi bi-stars text-4xl"></i>
-              <h2 class="text-2xl">Design & Creative</h2>
-              <p class="text-[.83rem] text-justify">
-                I craft stunning and memorable visual identities to connect with your audience, from logo design and branding to various
-                graphic assets for digital needs.
-              </p>
-            </div>
-          </div>
-
-          <!-- Technologies & Tools -->
-          <div class="skill-tech w-[100%] mt-10">
-            <h2 class="tech-title text-lg font-bold">Technologies & Tools</h2>
-            <div class="icon-tech flex justify-between w-[20%] mt-2">
-              <!-- HTML ICON -->
-              <i class="fa-brands fa-html5 text-3xl"></i>
-              <!-- CSS ICON -->
-              <i class="fa-brands fa-css3-alt text-3xl"></i>
-              <!-- GIT ICON -->
-              <i class="fa-brands fa-git-alt text-3xl"></i>
-              <!-- GITHUB ICON -->
-              <i class="fa-brands fa-github text-3xl"></i>
-              <!-- Fimga ICON -->
-              <i class="fa-brands fa-figma text-3xl"></i>
-              <!-- NOTE: KURANG ICON CANVA DAN TAILWINDCSS -->
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact -->
-      <section id="contact" class="h-screen flex items-center justify-center">
-        <div class="wrapper flex flex-col md:flex-row w-full max-w-6xl mx-auto rounded-lg overflow-hidden">
-          <div class="w-full md:w-1/2 p-8">
-            <!-- Title - Contact -->
-            <div class="contact">
-              <!-- <h2 class="text-[5rem] font-bold">Contact</h2> -->
-            </div>
-            <form action="#" method="POST" class="space-y-6">
-              <!-- name -->
-              <div>
-                <label for="name" class="block text-sm font-medium">Full Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Your Name"
-                  class="mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none"
-                  required
-                />
-              </div>
-              <!-- email -->
-              <div>
-                <label for="email" class="block text-sm font-medium">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="your.email@example.com"
-                  class="mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none"
-                  required
-                />
-              </div>
-              <!-- message -->
-              <div>
-                <label for="message" class="block text-sm font-medium">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="4"
-                  placeholder="How can I help you?"
-                  class="mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none resize-none"
-                  required
-                ></textarea>
-              </div>
-              <!-- button -->
-              <div>
-                <button
-                  type="reset"
-                  class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 transition-colors"
-                >
-                  Send Message
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <div class="w-full md:w-1/2 p-8 flex flex-col gap-5 justify-center items-center text-center">
-            <h1 class="text-5xl md:text-6xl font-bold">Thank You</h1>
-            <p class="text-lg">Let's Connect & Collaborate</p>
-            <div class="flex justify-center gap-6 text-3xl mt-4">
-              <!-- Linkedin -->
-              <a
-                href="https://www.linkedin.com/in/muhammad-riswansyah-7190a1325/"
-                target="_blank"
-                class="hover:text-gray-700 transition-colors"
-                ><i class="bi bi-linkedin"></i
-              ></a>
-
-              <!-- Instagram -->
-              <a href="#" class="hover:text-gray-700 transition-colors"><i class="bi bi-instagram"></i></a>
-              <!-- Github -->
-              <a href="#" class="hover:text-gray-700 transition-colors"><i class="bi bi-github"></i></a>
-              <!-- Threads -->
-              <a href="#" class="hover:text-gray-700 transition-colors"><i class="bi bi-threads"></i></a>
-              <!-- Discord -->
-              <a href="#" class="hover:text-gray-700 transition-colors"><i class="bi bi-discord"></i></a>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
 
-    <!-- JavaScript -->
     <script src="assets/js/script.js"></script>
-
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/d9acd3faa8.js" crossorigin="anonymous"></script>
   </body>
 </html>

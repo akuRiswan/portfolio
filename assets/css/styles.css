@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: auto;
+  background-color: white;
+}
+
 * {
   scroll-behavior: smooth;
 }
@@ -8,23 +17,57 @@
   font-family: "Encode Sans", sans-serif;
 }
 
-/* Hide Scrollbar */
+/* Hide scrollbar */
 ::-webkit-scrollbar {
   display: none;
 }
-
-/* card-text */
-.card-text {
-  background: #ffffff;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(82, 82, 82, 0.4) 50%, rgba(0, 0, 0, 1) 100%);
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* text on the right side (dropcap) - project */
-.dropcap {
-  float: left;
-  font-size: 4rem;
-  line-height: 1;
-  margin-right: 8px;
-  font-weight: bold;
-  font-family: serif;
+/* Stacking Sections */
+.stack-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+}
+
+.stack-section.active-section {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Dragging cursors */
+.cursor-grab {
+  cursor: grab;
+}
+.cursor-grabbing {
+  cursor: grabbing;
+}
+
+/* Project Card sizing */
+.project-card {
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Fix Mobile Menu */
+#mobile-menu {
+  z-index: 200;
+  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+#menu-toggle {
+  z-index: 210;
 }

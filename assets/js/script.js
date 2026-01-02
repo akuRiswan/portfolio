@@ -1,183 +1,155 @@
-// scroll animation
-// scroll animation
+const projects = [
+  { title: "GDM Invitation", desc: "Digital invitation team project.", img: "assets/img/project-2.jpg", link: "#" },
+  { title: "Coffee Shop POS", desc: "Automated ordering system.", img: "assets/img/project-1.jpg", link: "#" },
+  { title: "Car Rental CRUD", desc: "Professional car rental management.", img: "assets/img/project-1.jpg", link: "#" },
+  { title: "E-Commerce Web", desc: "Modern online shopping experience.", img: "assets/img/project-2.jpg", link: "#" },
+  { title: "Future Project", desc: "Exploring new technologies.", img: "assets/img/project-1.jpg", link: "#" },
+];
+
+function renderProjects() {
+  const container = document.getElementById("project-list");
+  if (!container) return;
+  container.innerHTML = projects
+    .map(
+      (p) => `
+    <a href="${p.link}" target="_blank" class="project-card min-w-[85vw] md:min-w-[450px] group relative overflow-hidden rounded-3xl h-[45vh] lg:h-[50vh] bg-gray-100 block">
+      <img src="${p.img}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" draggable="false" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-8 flex flex-col justify-end text-white">
+        <h3 class="text-2xl font-bold tracking-tight">${p.title}</h3>
+        <p class="text-xs opacity-60 line-clamp-2">${p.desc}</p>
+      </div>
+    </a>
+  `
+    )
+    .join("");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  renderProjects();
+
   const wrapper = document.getElementById("pin-wrapper");
+  const sections = Array.from(document.querySelectorAll(".stack-section"));
+  const projectList = document.getElementById("project-list");
+  const menuBtn = document.getElementById("menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const menuIcon = document.getElementById("menu-icon");
 
-  // Anda hanya perlu menambah ID elemen baru di sini
-  const sections = [
-    document.getElementById("home"),
-    document.getElementById("aboutme"),
-    document.getElementById("project"),
-    document.getElementById("skills"),
-    document.getElementById("contact"),
-  ];
+  // --- MOBILE MENU LOGIC ---
+  menuBtn.addEventListener("click", () => {
+    const isOpen = mobileMenu.classList.contains("translate-x-0");
+    if (isOpen) {
+      mobileMenu.classList.remove("translate-x-0");
+      mobileMenu.classList.add("translate-x-full");
+      menuIcon.className = "bi bi-list";
+    } else {
+      mobileMenu.classList.remove("translate-x-full");
+      mobileMenu.classList.add("translate-x-0");
+      menuIcon.className = "bi bi-x-lg";
+    }
+  });
 
-  if (!wrapper || sections.some((s) => !s)) {
-    console.error("Salah satu elemen HTML tidak ditemukan!");
-    return;
-  }
+  // --- DRAG TO SCROLL LOGIC ---
+  let isDown = false;
+  let startX;
+  let scrollLeft;
 
-  const setInitialStates = () => {
-    sections.forEach((section, i) => {
-      section.style.opacity = i === 0 ? "1" : "0";
-      section.style.transform = `scale(${i === 0 ? 1 : 0.5})`;
-      section.style.position = "fixed"; // Pastikan semua section tetap di tempat
-      section.style.top = "0";
-      section.style.left = "0";
-      section.style.width = "100%";
-    });
-  };
-  setInitialStates();
+  projectList.addEventListener("mousedown", (e) => {
+    isDown = true;
+    projectList.classList.replace("cursor-grab", "cursor-grabbing");
+    startX = e.pageX - projectList.offsetLeft;
+    scrollLeft = projectList.scrollLeft;
+  });
 
-  const animationScrollDistance = wrapper.offsetHeight - window.innerHeight;
+  projectList.addEventListener("mouseleave", () => {
+    isDown = false;
+    projectList.classList.replace("cursor-grabbing", "cursor-grab");
+  });
+
+  projectList.addEventListener("mouseup", () => {
+    isDown = false;
+    projectList.classList.replace("cursor-grabbing", "cursor-grab");
+  });
+
+  projectList.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - projectList.offsetLeft;
+    const walk = (x - startX) * 2;
+    projectList.scrollLeft = scrollLeft - walk;
+  });
+
+  // --- BUTTON NAVIGATION ---
+  document.getElementById("prev-btn").addEventListener("click", () => {
+    projectList.scrollBy({ left: -500, behavior: "smooth" });
+  });
+
+  document.getElementById("next-btn").addEventListener("click", () => {
+    projectList.scrollBy({ left: 500, behavior: "smooth" });
+  });
+
+  // --- STACKING ANIMATION LOGIC ---
+  const animationDistance = wrapper.offsetHeight - window.innerHeight;
   let ticking = false;
 
-  function handleScroll() {
-    const scrollFromWrapperTop = -wrapper.getBoundingClientRect().top;
+  function update() {
+    const scrollProgress = Math.max(0, Math.min(-wrapper.getBoundingClientRect().top / animationDistance, 1));
+    const numSections = sections.length;
+    const phaseDuration = 1 / (numSections - 1);
 
-    // Kondisi sebelum animasi dimulai
-    if (scrollFromWrapperTop < 0) {
-      setInitialStates();
-      return;
-    }
-    // Kondisi setelah animasi selesai
-    else if (scrollFromWrapperTop > animationScrollDistance) {
-      sections.forEach((s, i) => {
-        const isLastSection = i === sections.length - 1;
-        s.style.opacity = isLastSection ? "1" : "0";
-        s.style.transform = `scale(${isLastSection ? 1 : 0.5})`;
-      });
-      return;
-    }
-
-    // --- LOGIC DINAMIS ---
-    const numTransitions = sections.length - 1;
-    if (numTransitions <= 0) return;
-
-    const phaseDuration = 1 / numTransitions;
-    const totalProgress = scrollFromWrapperTop / animationScrollDistance;
-
-    const currentPhaseIndex = Math.min(Math.floor(totalProgress / phaseDuration), numTransitions - 1);
-
-    const phaseProgress = (totalProgress - currentPhaseIndex * phaseDuration) / phaseDuration;
-
-    const outgoingSection = sections[currentPhaseIndex];
-    const incomingSection = sections[currentPhaseIndex + 1];
+    const currentIdx = Math.min(Math.floor(scrollProgress / phaseDuration), numSections - 2);
+    const phaseProgress = (scrollProgress - currentIdx * phaseDuration) / phaseDuration;
 
     sections.forEach((section, index) => {
-      if (index !== currentPhaseIndex && index !== currentPhaseIndex + 1) {
+      if (index === currentIdx || index === currentIdx + 1) {
+        section.classList.add("active-section");
+        section.style.zIndex = index + 10;
+      } else {
+        section.classList.remove("active-section");
+        section.style.zIndex = index;
+      }
+
+      let animProgress = phaseProgress > 0.3 ? (phaseProgress - 0.3) / 0.7 : 0;
+
+      if (index === currentIdx) {
+        section.style.opacity = 1 - animProgress * 1.5;
+        section.style.transform = `scale(${1 + animProgress * 1.5})`;
+      } else if (index === currentIdx + 1) {
+        section.style.opacity = animProgress;
+        section.style.transform = `scale(${0.7 + animProgress * 0.3})`;
+      } else {
         section.style.opacity = "0";
-        section.style.transform = "scale(0.5)";
       }
     });
-
-    if (outgoingSection) {
-      outgoingSection.style.transform = `scale(${1 + phaseProgress * 4})`;
-      outgoingSection.style.opacity = 1 - phaseProgress;
-    }
-    if (incomingSection) {
-      incomingSection.style.transform = `scale(${0.5 + phaseProgress * 0.5})`;
-      incomingSection.style.opacity = phaseProgress;
-    }
   }
 
-  // Event listener tetap sama
   window.addEventListener("scroll", () => {
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        handleScroll();
+        update();
         ticking = false;
       });
       ticking = true;
     }
   });
-});
 
-// hover project card
-document.addEventListener("DOMContentLoaded", () => {
-  const projectCards = document.querySelectorAll(".card-project");
+  // Smooth Nav
+  document.querySelectorAll(".nav-link, .mobile-nav-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const targetId = link.getAttribute("href");
+      if (targetId.startsWith("#")) {
+        e.preventDefault();
+        mobileMenu.classList.add("translate-x-full");
+        mobileMenu.classList.remove("translate-x-0");
+        menuIcon.className = "bi bi-list";
 
-  projectCards.forEach((card) => {
-    const overlay = card.querySelector(".project-overlay");
-    if (!overlay) {
-      return;
-    }
-
-    card.addEventListener("mouseenter", () => {
-      // Tampilkan overlay dengan mengubah opacity-nya
-      overlay.classList.remove("opacity-0");
-      overlay.classList.add("opacity-100");
-    });
-
-    card.addEventListener("mouseleave", () => {
-      // Sembunyikan kembali overlay-nya
-      overlay.classList.remove("opacity-100");
-      overlay.classList.add("opacity-0");
-    });
-  });
-});
-
-// max word length - 20 word
-let twntyWord = document.querySelectorAll(".max-20word");
-
-twntyWord.forEach((twnty) => {
-  let words = twnty.innerText.split(" "); // pecah jadi array kata
-  let limit = 20; // batas kata
-
-  if (words.length > limit) {
-    twnty.innerText = words.slice(0, limit).join(" ") + " . . ."; // potong dan tambahkan ...
-  }
-});
-
-// max word length - 2 word
-let twoWord = document.querySelectorAll(".max-2word");
-
-twoWord.forEach((two) => {
-  let words = two.innerText.split(" "); // pecah jadi array kata
-  let limit = 2; // batas kata
-
-  if (words.length > limit) {
-    two.innerText = words.slice(0, limit).join(" "); // potong dan
-  }
-});
-
-// Navbar
-document.addEventListener("DOMContentLoaded", () => {
-  // Pilih semua elemen dengan class 'nav-link'
-  const navLinks = document.querySelectorAll(".nav-link");
-
-  navLinks.forEach((link) => {
-    link.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      const targetId = this.getAttribute("href");
-      let targetScrollY = 0;
-
-      switch (targetId) {
-        case "#home":
-          targetScrollY = 0;
-          break;
-        case "#aboutme":
-          targetScrollY = window.innerHeight * 2;
-          break;
-        case "#project":
-          targetScrollY = window.innerHeight * 4;
-          break;
-        case "#skills":
-          targetScrollY = window.innerHeight * 6;
-          break;
-        case "#contact":
-          targetScrollY = window.innerHeight * 8;
-          break;
+        const idx = ["#home", "#aboutme", "#project", "#skills", "#contact"].indexOf(targetId);
+        window.scrollTo({
+          top: idx * (animationDistance / (sections.length - 1)),
+          behavior: "smooth",
+        });
       }
-
-      window.scrollTo({
-        top: targetScrollY,
-        behavior: "smooth", // Efek scroll halus
-      });
     });
   });
 
-  // NOTE: Kode animasi scroll utama Anda yang sudah ada harus tetap dipertahankan.
-  // Kode ini hanya untuk menangani klik pada navbar.
+  update();
 });
