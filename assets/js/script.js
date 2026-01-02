@@ -90,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- STACKING ANIMATION LOGIC ---
   const animationDistance = wrapper.offsetHeight - window.innerHeight;
   let ticking = false;
+  let lastScrolledIdx = -1;
 
   function update() {
     const scrollProgress = Math.max(0, Math.min(-wrapper.getBoundingClientRect().top / animationDistance, 1));
@@ -98,6 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const currentIdx = Math.min(Math.floor(scrollProgress / phaseDuration), numSections - 2);
     const phaseProgress = (scrollProgress - currentIdx * phaseDuration) / phaseDuration;
+
+    // Auto snap ke section berikutnya
+    if (phaseProgress > 0.5 && lastScrolledIdx !== currentIdx + 1) {
+      lastScrolledIdx = currentIdx + 1;
+      const targetScroll = (currentIdx + 1) * (animationDistance / (numSections - 1));
+      window.scrollTo({ top: targetScroll, behavior: "smooth" });
+    } else if (phaseProgress <= 0.5 && lastScrolledIdx !== currentIdx) {
+      lastScrolledIdx = currentIdx;
+    }
 
     sections.forEach((section, index) => {
       if (index === currentIdx || index === currentIdx + 1) {
