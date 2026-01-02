@@ -40,7 +40,8 @@ body {
   pointer-events: none;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.3s linear;
+  /* transition: visibility 0s, opacity 0.3s linear; */
+  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.2s;
 }
 
 .stack-section.active-section {
