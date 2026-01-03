@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       mobileMenu.classList.remove("translate-x-full");
       mobileMenu.classList.add("translate-x-0");
-      menuIcon.className = "bi bi-x-lg";
+      menuIcon.className = "bi bi-x-lg ";
     }
   });
 
