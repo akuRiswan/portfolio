@@ -424,8 +424,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // update() will be called after window 'load' to ensure layout measurements are correct
-  // Tambahkan ini di dalam script.js
-  const contactForm = document.querySelector("#contact form");
+  // Variabel global untuk elemen form dan modal status
+  const contactForm = document.querySelector("#contact-form");
+  const statusModal = document.getElementById("status-modal");
+  const modalIcon = document.getElementById("modal-icon");
+  const modalTitle = document.getElementById("modal-title");
+  const modalDesc = document.getElementById("modal-desc");
+  const closeModal = document.getElementById("close-modal");
 
   if (contactForm) {
     contactForm.addEventListener("submit", function (e) {
@@ -439,12 +444,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const email = e.target.querySelector('input[placeholder="Email"]').value;
       const message = e.target.querySelector("textarea").value;
 
-      // Ganti dengan kredensial bot kamu
-      const telegramToken = "AAF5i9Mnl65MGrgsohnjsEOlPsPqVT05ylQ";
-      const chatId = "8579586693";
-
       const text = `
-<b>New Message from Portfolio!</b>
+<b>New Message from WebPortfolio!</b>
 <b>Name:</b> ${name}
 <b>Email:</b> ${email}
 <b>Message:</b> ${message}
@@ -454,31 +455,50 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.innerText = "SENDING...";
       btn.disabled = true;
 
-      fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+      fetch("http://localhost:3000/api/sendtg", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: text,
-          parse_mode: "HTML",
-        }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            alert("Message sent successfully!");
-            contactForm.reset();
-          } else {
-            alert("Failed to send message.");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("An error occurred.");
-        })
-        .finally(() => {
-          btn.innerText = originalBtnText;
-          btn.disabled = false;
-        });
+        body: JSON.stringify({ name, email, message }), // HANYA kirim data
+      }).then((res) => {
+        if (res.ok) {
+          showModal(true);
+          contactForm.reset();
+        } else {
+          showModal(false);
+          contactForm.reset();
+        }
+      });
+    });
+  }
+
+  // Fungsi untuk menampilkan modal
+  // Ambil elemen icon-nya saja
+  const statusIcon = document.getElementById("status-icon");
+
+  function showModal(isSuccess, message = "") {
+    if (!statusModal || !statusIcon) return;
+
+    statusModal.classList.remove("hidden");
+    statusModal.classList.add("flex");
+
+    if (isSuccess) {
+      // Menghapus class lama dan memasang class baru (Ikon Centang + Warna Hijau)
+      statusIcon.className = "bi bi-patch-check-fill text-green-500";
+      modalTitle.innerText = "Berhasil!";
+      modalDesc.innerText = "Pesan kamu sudah terkirim.";
+    } else {
+      // Menghapus class lama dan memasang class baru (Ikon Silang/Tanda Seru + Warna Merah)
+      statusIcon.className = "bi bi-patch-exclamation-fill text-red-500";
+      modalTitle.innerText = "Gagal!";
+      modalDesc.innerText = message || "Terjadi kesalahan saat mengirim pesan.";
+    }
+  }
+
+  // Event listener untuk tombol Oke
+  if (closeModal) {
+    closeModal.addEventListener("click", () => {
+      statusModal.classList.add("hidden");
+      statusModal.classList.remove("flex");
     });
   }
 });
