@@ -1,24 +1,23 @@
 const projects = [
   {
     title: "Running Text Arduino",
-    desc: "Sistem display teks berjalan berbasis Arduino.",
+    desc: "An Arduino-based system designed to display and manage scrolling text on LED matrix modules.",
     img: "assets/img/running-text-arduino.jpg",
-    link: "#",
+    link: "https://i.ibb.co.com/SDTPQm3L/running-text-arduino.jpg",
   },
   {
     title: "Digital Invitation",
-    desc: "Undangan digital berbasis web.",
+    desc: "A responsive web application for creating and managing modern digital event invitations.",
     img: "assets/img/digital-invitation.png",
-    link: "https://kuladigital.webinvit.id/",
+    link: "https://kuladigital.webinvit.id/tema",
   },
   {
-    title: "Royal Rent Web",
-    desc: "Platform penyewaan mobil otomatis.",
+    title: "Car Rental Web",
+    desc: "Car rental site with WhatsApp booking and admin CRUD for car updates.",
     img: "assets/img/web-royal-rent.png",
     link: "https://rental-mobil-phi.vercel.app/",
   },
 ];
-
 function renderProjects() {
   const container = document.getElementById("project-list");
   if (!container) return;
