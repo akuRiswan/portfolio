@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     style.id = "mobile-menu-styles";
     style.innerHTML = `
       #mobile-menu{ background: rgba(255,255,255,0.7); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); color: #111 }
-      #mobile-menu .mobile-nav-link{ display:block; padding:12px 16px; transition: transform .18s ease, background .18s ease, color .18s ease; border-radius:6px; color: inherit; text-decoration:none }
+      #mobile-menu .mobile-nav-link{ display:block; padding:12px 5px; transition: transform .18s ease, background .18s ease, color .18s ease; border-radius:6px; color: inherit; text-decoration:none }
       #mobile-menu .mobile-nav-link:hover{ transform: translateY(2px); color: rgba(106, 114, 130, 0.8); }
     `;
     document.head.appendChild(style);
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
       left: "0",
       right: "auto",
       bottom: "auto",
-      height: mobileMenu.style.height || "70vh",
+      height: mobileMenu.style.height || "100%",
       width: mobileMenu.style.width || "100%",
       maxWidth: mobileMenu.style.maxWidth || "100%",
       transform: "translateY(-100%)",
