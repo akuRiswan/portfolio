@@ -1,9 +1,22 @@
 const projects = [
-  { title: "GDM Invitation", desc: "Digital invitation team project.", img: "assets/img/project-2.jpg", link: "#" },
-  { title: "Coffee Shop POS", desc: "Automated ordering system.", img: "assets/img/project-1.jpg", link: "#" },
-  { title: "Car Rental CRUD", desc: "Professional car rental management.", img: "assets/img/project-1.jpg", link: "#" },
-  { title: "E-Commerce Web", desc: "Modern online shopping experience.", img: "assets/img/project-2.jpg", link: "#" },
-  { title: "Future Project", desc: "Exploring new technologies.", img: "assets/img/project-1.jpg", link: "#" },
+  {
+    title: "Running Text Arduino",
+    desc: "Sistem display teks berjalan berbasis Arduino.",
+    img: "assets/img/running-text-arduino.jpg",
+    link: "#",
+  },
+  {
+    title: "Digital Invitation",
+    desc: "Undangan digital berbasis web.",
+    img: "assets/img/digital-invitation.png",
+    link: "https://kuladigital.webinvit.id/",
+  },
+  {
+    title: "Royal Rent Web",
+    desc: "Platform penyewaan mobil otomatis.",
+    img: "assets/img/web-royal-rent.png",
+    link: "https://rental-mobil-phi.vercel.app/",
+  },
 ];
 
 function renderProjects() {
@@ -12,7 +25,7 @@ function renderProjects() {
   container.innerHTML = projects
     .map(
       (p) => `
-    <a href="${p.link}" target="_blank" class="project-card min-w-[85vw] md:min-w-[450px] group relative overflow-hidden rounded-3xl h-[45vh] lg:h-[50vh] bg-gray-100 block">
+    <a href="${p.link}" target="_blank" class="project-card min-w-[75vw] md:min-w-[400px] group relative overflow-hidden rounded-3xl h-[45vh] lg:h-[50vh] bg-gray-100 block z-100">
       <img src="${p.img}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" draggable="false" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-8 flex flex-col justify-end text-white">
         <h3 class="text-2xl font-bold tracking-tight">${p.title}</h3>
@@ -34,6 +47,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileMenu = document.getElementById("mobile-menu");
   const menuIcon = document.getElementById("menu-icon");
 
+  // Blocker overlay to intercept pointer/selection for background sections
+  let stackBlocker = document.getElementById("stack-blocker");
+  if (!stackBlocker) {
+    stackBlocker = document.createElement("div");
+    stackBlocker.id = "stack-blocker";
+    Object.assign(stackBlocker.style, {
+      position: "fixed",
+      inset: "0",
+      background: "transparent",
+      zIndex: "0",
+      pointerEvents: "none",
+      userSelect: "none",
+      display: "none",
+    });
+    document.body.appendChild(stackBlocker);
+  }
+
   // --- MOBILE MENU LOGIC ---
   menuBtn.addEventListener("click", () => {
     const isOpen = mobileMenu.classList.contains("translate-x-0");
@@ -42,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mobileMenu.classList.add("translate-x-full");
       menuIcon.className = "bi bi-list";
     } else {
-      mobileMenu.classList.remove("translate-x-full");
+      ~mobileMenu.classList.remove("translate-x-full");
       mobileMenu.classList.add("translate-x-0");
       menuIcon.className = "bi bi-x-lg ";
     }
@@ -91,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const animationDistance = wrapper.offsetHeight - window.innerHeight;
   let ticking = false;
   let lastScrolledIdx = -1;
+  let disableAutoSnap = false;
 
   function update() {
     const scrollProgress = Math.max(0, Math.min(-wrapper.getBoundingClientRect().top / animationDistance, 1));
@@ -101,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const phaseProgress = (scrollProgress - currentIdx * phaseDuration) / phaseDuration;
 
     // Auto snap ke section berikutnya
-    if (phaseProgress > 0.5 && lastScrolledIdx !== currentIdx + 1) {
+    if (!disableAutoSnap && phaseProgress > 0.5 && lastScrolledIdx !== currentIdx + 1) {
       lastScrolledIdx = currentIdx + 1;
       const targetScroll = (currentIdx + 1) * (animationDistance / (numSections - 1));
       window.scrollTo({ top: targetScroll, behavior: "smooth" });
@@ -110,12 +141,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     sections.forEach((section, index) => {
-      if (index === currentIdx || index === currentIdx + 1) {
+      const isActive = index === currentIdx || index === currentIdx + 1;
+      const topIndex = phaseProgress < 0.5 ? currentIdx : currentIdx + 1;
+
+      if (isActive) {
         section.classList.add("active-section");
-        section.style.zIndex = index + 10;
+        // Ensure the visually-top section has the highest z-index and receives pointer events
+        if (index === topIndex) {
+          section.style.zIndex = 1000 + index;
+          section.style.pointerEvents = "auto";
+          section.style.userSelect = "auto";
+          section.setAttribute("aria-hidden", "false");
+        } else {
+          section.style.zIndex = 100 + index;
+          section.style.pointerEvents = "none";
+          section.style.userSelect = "none";
+          section.setAttribute("aria-hidden", "true");
+        }
       } else {
         section.classList.remove("active-section");
         section.style.zIndex = index;
+        section.style.pointerEvents = "none";
+        section.style.userSelect = "none";
+        section.setAttribute("aria-hidden", "true");
       }
 
       let animProgress = phaseProgress > 0.3 ? (phaseProgress - 0.3) / 0.7 : 0;
@@ -130,6 +178,9 @@ document.addEventListener("DOMContentLoaded", () => {
         section.style.opacity = "0";
       }
     });
+
+    // Keep blocker disabled — rely on per-section pointer-events/user-select instead
+    stackBlocker.style.display = "none";
   }
 
   window.addEventListener("scroll", () => {
@@ -152,11 +203,19 @@ document.addEventListener("DOMContentLoaded", () => {
         mobileMenu.classList.remove("translate-x-0");
         menuIcon.className = "bi bi-list";
 
-        const idx = ["#home", "#aboutme", "#project", "#skills", "#contact"].indexOf(targetId);
-        window.scrollTo({
-          top: idx * (animationDistance / (sections.length - 1)),
-          behavior: "smooth",
-        });
+        const idx = ["#home", "#aboutme", "#skills", "#project", "#contact"].indexOf(targetId);
+        if (idx >= 0) {
+          disableAutoSnap = true;
+          const targetScroll = idx * (animationDistance / (sections.length - 1));
+          window.scrollTo({
+            top: targetScroll,
+            behavior: "smooth",
+          });
+          setTimeout(() => {
+            disableAutoSnap = false;
+            lastScrolledIdx = idx;
+          }, 700);
+        }
       }
     });
   });

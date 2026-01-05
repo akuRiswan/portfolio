@@ -33,7 +33,7 @@ body {
   left: 0;
   width: 100%;
   height: 100vh;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   background: white;
@@ -45,6 +45,7 @@ body {
 }
 
 .stack-section.active-section {
+  display: flex;
   pointer-events: auto;
   visibility: visible;
 }
