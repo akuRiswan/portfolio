@@ -455,10 +455,15 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.innerText = "SENDING...";
       btn.disabled = true;
 
-      fetch("http://localhost:3000/api/sendtg", {
+      // fetch("http://localhost:3000/api/sendtg", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ name, email, message }), // HANYA kirim data
+      // })
+      fetch("./api/sendtg", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }), // HANYA kirim data
+        body: JSON.stringify({ name, email, message }),
       }).then((res) => {
         if (res.ok) {
           showModal(true);
