@@ -424,4 +424,61 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // update() will be called after window 'load' to ensure layout measurements are correct
+  // Tambahkan ini di dalam script.js
+  const contactForm = document.querySelector("#contact form");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const btn = e.target.querySelector("button");
+      const originalBtnText = btn.innerText;
+
+      // Ambil data dari input
+      const name = e.target.querySelector('input[placeholder="Full Name"]').value;
+      const email = e.target.querySelector('input[placeholder="Email"]').value;
+      const message = e.target.querySelector("textarea").value;
+
+      // Ganti dengan kredensial bot kamu
+      const telegramToken = "AAF5i9Mnl65MGrgsohnjsEOlPsPqVT05ylQ";
+      const chatId = "8579586693";
+
+      const text = `
+<b>New Message from Portfolio!</b>
+<b>Name:</b> ${name}
+<b>Email:</b> ${email}
+<b>Message:</b> ${message}
+    `;
+
+      // Beri feedback loading pada tombol
+      btn.innerText = "SENDING...";
+      btn.disabled = true;
+
+      fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: text,
+          parse_mode: "HTML",
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert("Message sent successfully!");
+            contactForm.reset();
+          } else {
+            alert("Failed to send message.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("An error occurred.");
+        })
+        .finally(() => {
+          btn.innerText = originalBtnText;
+          btn.disabled = false;
+        });
+    });
+  }
 });
