@@ -9,8 +9,8 @@ export default async function handler(req, res) {
   const { name, email, message } = req.body;
 
   // Mengambil token dari Environment Variables Vercel
-  const token = process.env.TELEGRAM_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const token = api.env.TELEGRAM_TOKEN;
+  const chatId = api.env.TELEGRAM_CHAT_ID;
 
   const text = `
 <b>New Message from WebPortfolio!</b>
