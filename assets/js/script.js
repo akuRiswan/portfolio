@@ -38,6 +38,8 @@ function renderProjects() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (window.__riswanInitialized) return;
+  window.__riswanInitialized = true;
   renderProjects();
 
   const wrapper = document.getElementById("pin-wrapper");
@@ -65,18 +67,103 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- MOBILE MENU LOGIC ---
-  menuBtn.addEventListener("click", () => {
-    const isOpen = mobileMenu.classList.contains("translate-x-0");
-    if (isOpen) {
-      mobileMenu.classList.remove("translate-x-0");
-      mobileMenu.classList.add("translate-x-full");
-      menuIcon.className = "bi bi-list";
-    } else {
-      ~mobileMenu.classList.remove("translate-x-full");
-      mobileMenu.classList.add("translate-x-0");
-      menuIcon.className = "bi bi-x-lg ";
+
+  // Create backdrop element for blur + dim when menu is open
+  let mobileBackdrop = document.getElementById("mobile-menu-backdrop");
+  if (!mobileBackdrop) {
+    mobileBackdrop = document.createElement("div");
+    mobileBackdrop.id = "mobile-menu-backdrop";
+    Object.assign(mobileBackdrop.style, {
+      position: "fixed",
+      inset: "0",
+      background: "rgba(0,0,0,0.25)",
+      backdropFilter: "blur(6px)",
+      WebkitBackdropFilter: "blur(6px)",
+      opacity: "0",
+      transition: "opacity 0.35s ease",
+      pointerEvents: "none",
+      zIndex: "9",
+    });
+    document.body.appendChild(mobileBackdrop);
+  }
+
+  // inject simple hover/glass styles for mobile menu links
+  if (!document.getElementById("mobile-menu-styles")) {
+    const style = document.createElement("style");
+    style.id = "mobile-menu-styles";
+    style.innerHTML = `
+      #mobile-menu{ background: rgba(255,255,255,0.7); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); color: #111 }
+      #mobile-menu .mobile-nav-link{ display:block; padding:12px 16px; transition: transform .18s ease, background .18s ease, color .18s ease; border-radius:6px; color: inherit; text-decoration:none }
+      #mobile-menu .mobile-nav-link:hover{ transform: translateY(2px); color: rgba(106, 114, 130, 0.8); }
+    `;
+    document.head.appendChild(style);
+  }
+
+  if (mobileMenu) {
+    // remove utility classes that set full inset/translate which conflict with our inline transform
+    mobileMenu.classList.remove("inset-0", "translate-x-full", "translate-x-0");
+    // initialize styles so menu slides from top and occupies half the screen height
+    Object.assign(mobileMenu.style, {
+      position: mobileMenu.style.position || "fixed",
+      top: "0",
+      left: "0",
+      right: "auto",
+      bottom: "auto",
+      height: mobileMenu.style.height || "70vh",
+      width: mobileMenu.style.width || "100%",
+      maxWidth: mobileMenu.style.maxWidth || "100%",
+      transform: "translateY(-100%)",
+      transition: "transform 0.35s ease",
+      zIndex: mobileMenu.style.zIndex || "10",
+      overflowY: "auto",
+      WebkitOverflowScrolling: "touch",
+      display: mobileMenu.style.display || "flex",
+      flexDirection: mobileMenu.style.flexDirection || "column",
+      alignItems: mobileMenu.style.alignItems || "center",
+      justifyContent: mobileMenu.style.justifyContent || "center",
+    });
+    mobileMenu.setAttribute("data-open", "false");
+  }
+
+  function openMobileMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.style.transform = "translateY(0)";
+    mobileMenu.setAttribute("data-open", "true");
+    if (menuIcon) menuIcon.className = "bi bi-x-lg";
+    if (menuBtn) menuBtn.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+    if (mobileBackdrop) {
+      mobileBackdrop.style.opacity = "1";
+      mobileBackdrop.style.pointerEvents = "auto";
     }
-  });
+  }
+
+  function closeMobileMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.style.transform = "translateY(-100%)";
+    mobileMenu.setAttribute("data-open", "false");
+    if (menuIcon) menuIcon.className = "bi bi-list";
+    if (menuBtn) menuBtn.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+    if (mobileBackdrop) {
+      mobileBackdrop.style.opacity = "0";
+      mobileBackdrop.style.pointerEvents = "none";
+    }
+  }
+
+  if (mobileBackdrop) {
+    mobileBackdrop.addEventListener("click", () => {
+      closeMobileMenu();
+    });
+  }
+
+  if (menuBtn) {
+    menuBtn.addEventListener("click", () => {
+      const isOpen = mobileMenu && mobileMenu.getAttribute("data-open") === "true";
+      if (isOpen) closeMobileMenu();
+      else openMobileMenu();
+    });
+  }
 
   // --- DRAG TO SCROLL LOGIC ---
   let isDown = false;
@@ -199,9 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const targetId = link.getAttribute("href");
       if (targetId.startsWith("#")) {
         e.preventDefault();
-        mobileMenu.classList.add("translate-x-full");
-        mobileMenu.classList.remove("translate-x-0");
-        menuIcon.className = "bi bi-list";
+        // close mobile menu when navigating
+        closeMobileMenu();
 
         const idx = ["#home", "#aboutme", "#skills", "#project", "#contact"].indexOf(targetId);
         if (idx >= 0) {
