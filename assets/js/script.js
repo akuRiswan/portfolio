@@ -39,6 +39,90 @@ function renderProjects() {
 document.addEventListener("DOMContentLoaded", () => {
   if (window.__riswanInitialized) return;
   window.__riswanInitialized = true;
+
+  // --- PAGE LOADER ---
+  // ensure we record loader start time to enforce minimum display duration
+  let pageLoader = document.getElementById("page-loader");
+  if (!pageLoader) {
+    pageLoader = document.createElement("div");
+    pageLoader.id = "page-loader";
+    pageLoader.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;gap:18px;padding:18px">
+        <div class="loader-bounce" aria-hidden="true"></div>
+        <div class="loader-fill " aria-hidden="true">Loading</div>
+      </div>
+    `;
+    Object.assign(pageLoader.style, {
+      position: "fixed",
+      inset: "0",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "#ffffff",
+      zIndex: "3000",
+    });
+    document.body.appendChild(pageLoader);
+    // record start time globally so load handler can compute elapsed
+    window.__loaderStart = Date.now();
+  }
+
+  if (!document.getElementById("page-loader-styles")) {
+    const s = document.createElement("style");
+    s.id = "page-loader-styles";
+    s.innerHTML = `
+  /* Filling text loader (adapted) */
+      .loader-fill {
+        width: fit-content;
+        font-size: 40px;
+        line-height: 1.5;
+        font-family: "Bungee Shade", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        text-transform: uppercase;
+        color: transparent;
+        -webkit-text-stroke: 1px #000;
+        background:
+          radial-gradient(1.13em at 50% 1.6em,#000 99%,#0000 101%) calc(50% - 1.6em) 0/3.2em 100% text,
+          radial-gradient(1.13em at 50% -0.8em,#0000 99%,#000 101%) 50% .8em/3.2em 100% repeat-x  text;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: l9 2s linear infinite;
+      }
+      @keyframes l9 {
+        to {background-position: calc(50% + 1.6em) 0,calc(50% + 3.2em) .8em}
+      }
+    
+      /* Bouncing dot loader (adapted) */
+      .loader-bounce {
+        height: 60px;
+        aspect-ratio: 2;
+        border-bottom: 3px solid #524656;
+        position: relative;
+        overflow: hidden;
+        width: 120px;
+      }
+      .loader-bounce:before {
+        content: "";
+        position: absolute;
+        inset: auto 42.5% 0;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: #CF4647;
+        animation: 
+          l1-0 .5s cubic-bezier(0,900,1,900) infinite,
+          l1-1  2s linear infinite;
+      }
+      @keyframes l1-0 {
+        0%,2% {bottom: 0%}
+        98%,to {bottom:.1%}
+      }
+      @keyframes l1-1 {
+        0% {transform: translateX(-500%)}
+        to {transform: translateX(500%)}
+      }
+    `;
+    document.head.appendChild(s);
+  }
   renderProjects();
 
   const wrapper = document.getElementById("pin-wrapper");
@@ -204,7 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // --- STACKING ANIMATION LOGIC ---
-  const animationDistance = wrapper.offsetHeight - window.innerHeight;
+  let animationDistance;
   let ticking = false;
   let lastScrolledIdx = -1;
   let disableAutoSnap = false;
@@ -279,6 +363,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Recalculate animation distance on resize
+  window.addEventListener("resize", () => {
+    if (wrapper) animationDistance = wrapper.offsetHeight - window.innerHeight;
+  });
+
+  // When the full page (images, fonts, etc.) finished loading, hide loader and initialize measurements
+  window.addEventListener("load", () => {
+    if (wrapper) animationDistance = wrapper.offsetHeight - window.innerHeight;
+    // ensure update runs with correct layout
+    update();
+
+    const pageLoader = document.getElementById("page-loader");
+    if (pageLoader) {
+      const started = window.__loaderStart || Date.now();
+      const elapsed = Date.now() - started;
+      const defaultMin = 3500; // milliseconds
+      // allow override via <body data-loader-duration="2000"> (ms) or window.__loaderMinMs
+      let minShow = defaultMin;
+      const attr = document.body && document.body.getAttribute && document.body.getAttribute("data-loader-duration");
+      if (attr) {
+        const parsed = parseInt(attr, 10);
+        if (!isNaN(parsed)) minShow = parsed;
+      } else if (typeof window.__loaderMinMs === "number") {
+        minShow = window.__loaderMinMs;
+      }
+      const wait = Math.max(0, minShow - elapsed);
+      setTimeout(() => {
+        pageLoader.style.transition = "opacity .35s ease";
+        pageLoader.style.opacity = "0";
+        setTimeout(() => pageLoader.remove(), 400);
+      }, wait);
+    }
+  });
+
   // Smooth Nav
   document.querySelectorAll(".nav-link, .mobile-nav-link").forEach((link) => {
     link.addEventListener("click", (e) => {
@@ -305,5 +423,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  update();
+  // update() will be called after window 'load' to ensure layout measurements are correct
 });
