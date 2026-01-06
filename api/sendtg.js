@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 
 export default async function handler(req, res) {
   // Hanya izinkan metode POST
@@ -8,9 +8,9 @@ export default async function handler(req, res) {
 
   const { name, email, message } = req.body;
 
-  // Mengambil token dari Environment Variables Vercel
-  const token = api.env.TELEGRAM_TOKEN;
-  const chatId = api.env.TELEGRAM_CHAT_ID;
+  // PERBAIKAN: Gunakan process.env
+  const token = process.env.TELEGRAM_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
 
   const text = `
 <b>New Message from WebPortfolio!</b>
@@ -28,6 +28,7 @@ export default async function handler(req, res) {
     });
     return res.status(200).json({ success: true });
   } catch (error) {
+    console.error("Telegram Error:", error.response?.data || error.message);
     return res.status(500).json({ success: false, error: error.message });
   }
 }

@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Menangani request POST dari script.js
-app.post("/api/sendtg", async (req, res) => {
+app.post("./api/sendtg", async (req, res) => {
   const { name, email, message } = req.body;
   const token = process.env.TELEGRAM_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
