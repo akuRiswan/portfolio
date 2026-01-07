@@ -1,14 +1,14 @@
 const projects = [
-  {
-    title: "Running Text Arduino",
-    desc: "An Arduino-based system designed to display and manage scrolling text on LED matrix modules.",
-    img: "assets/img/running-text-arduino.jpg",
-    link: "https://i.ibb.co.com/SDTPQm3L/running-text-arduino.jpg",
-  },
+  // {
+  //   title: "Running Text Arduino",
+  //   desc: "An Arduino-based system designed to display and manage scrolling text on LED matrix modules.",
+  //   img: "assets/img/running-text-arduino.jpg",
+  //   link: "https://i.ibb.co.com/SDTPQm3L/running-text-arduino.jpg",
+  // },
   {
     title: "Digital Invitation",
     desc: "A responsive web application for creating and managing modern digital event invitations.",
-    img: "assets/img/digital-invitation.png",
+    img: "assets/img/digital-invitation (2).png",
     link: "https://kuladigital.webinvit.id/tema",
   },
   {
