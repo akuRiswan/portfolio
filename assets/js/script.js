@@ -31,7 +31,7 @@ function renderProjects() {
         <p class="text-xs opacity-60 line-clamp-2">${p.desc}</p>
       </div>
     </a>
-  `
+  `,
     )
     .join("");
 }
@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
   window.__riswanInitialized = true;
 
   // --- PAGE LOADER ---
-  // ensure we record loader start time to enforce minimum display duration
   let pageLoader = document.getElementById("page-loader");
   if (!pageLoader) {
     pageLoader = document.createElement("div");
@@ -378,7 +377,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (pageLoader) {
       const started = window.__loaderStart || Date.now();
       const elapsed = Date.now() - started;
-      const defaultMin = 3500; // milliseconds
+      // waktu loading minimum sebelum loader hilang
+      const defaultMin = 1000; // milliseconds
       // allow override via <body data-loader-duration="2000"> (ms) or window.__loaderMinMs
       let minShow = defaultMin;
       const attr = document.body && document.body.getAttribute && document.body.getAttribute("data-loader-duration");
