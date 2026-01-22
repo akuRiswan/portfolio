@@ -36,7 +36,7 @@
         <div class="hidden lg:flex items-center gap-8 text-sm font-medium">
           <a href="#home" class="nav-link hover:text-gray-500">Home</a>
           <a href="#aboutme" class="nav-link hover:text-gray-500">About</a>
-          <a href="#skills" class="nav-link hover:text-gray-500">Skills</a>
+          <a href="#skills" class="nav-link hover:text-gray-500">Skills & Experiences</a>
           <a href="#project" class="nav-link hover:text-gray-500">Project</a>
           <a href="#contact" class="nav-link hover:text-gray-500">Contact</a>
           <!-- Line pembatas -->
@@ -56,7 +56,7 @@
         <a href="#home" class="mobile-nav-link hover:text-gray-500">Home</a>
         <a href="#aboutme" class="mobile-nav-link hover:text-gray-500">About</a>
         <a href="#project" class="mobile-nav-link hover:text-gray-500">Project</a>
-        <a href="#skills" class="mobile-nav-link hover:text-gray-500">Skills</a>
+        <a href="#skills" class="mobile-nav-link hover:text-gray-500">Skills & Experiences</a>
         <a href="#contact" class="mobile-nav-link hover:text-gray-500">Contact</a>
       </div>
 
@@ -96,148 +96,150 @@
             <!-- judul skill & experiences -->
             <h2 class="text-4xl md:text-6xl font-bold mb-14">Skills & Experiences</h2>
             <!-- Skills -->
-            <div class="grid grid-cols-2 md:grid-cols-5 md:col-span-3 gap-0">
-              <!-- flip card - WEB DEVELOPMENT -->
-              <div class="group w-62 h-86 [perspective:1000px] cursor-pointer">
+            <div class="w-full md:grid md:grid-cols-5 md:gap-6">
+              <div id="skills-carousel" class="col-span-3 flex gap-4 overflow-x-auto md:overflow-visible no-scrollbar pb-2">
+                <!-- flip card - WEB DEVELOPMENT -->
                 <div
-                  class="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
+                  class="skill-item group min-w-[80vw] md:min-w-0 md:w-full max-w-[15.5rem] h-56 md:h-86 mx-auto [perspective:1000px] cursor-pointer"
                 >
-                  <!-- Front Side -->
                   <div
-                    class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-tr from-gray-600 to-stone-700 border border-gray-200"
+                    class="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
                   >
-                    <div class="px-4">
-                      <div class="flex gap-2 items-center">
-                        <i class="bi bi-pc-display text-3xl text-white"></i>
-                        <h4 class="text-[1.3rem] font-extrabold text-white py-3">Web Development</h4>
+                    <!-- Front Side -->
+                    <div
+                      class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-tr from-gray-600 to-stone-700 border border-gray-200"
+                    >
+                      <div class="px-4">
+                        <div class="flex gap-2 items-center">
+                          <i class="bi bi-pc-display text-3xl text-white"></i>
+                          <h4 class="text-[1.3rem] font-extrabold text-white py-3">Web Development</h4>
+                        </div>
+                        <p class="text-[.65rem] text-white text-justify">
+                          Building responsive, functional, and high-performance websites using modern technologies to deliver optimal
+                          digital solutions across all devices.
+                        </p>
                       </div>
-                      <p class="text-[.65rem] text-white text-justify">
-                        Building responsive, functional, and high-performance websites using modern technologies to deliver optimal digital
-                        solutions across all devices.
-                      </p>
+                    </div>
+
+                    <!-- Back Side -->
+                    <div
+                      class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-bl from-gray-600 to-stone-700 text-white [transform:rotateY(180deg)]"
+                    >
+                      <ul class="text-sm px-4 space-y-2 text-left">
+                        <li>
+                          <i class="bi bi-window-stack"></i>
+                          <strong>Frontend:</strong> HTML, CSS, JavaScript, Tailwind CSS
+                        </li>
+                        <li>
+                          <i class="bi bi-database"></i>
+                          <strong>Backend:</strong> Node.js, Express, MySQL / PostgreSQL
+                        </li>
+                        <li>
+                          <i class="bi bi-tools"></i>
+                          <strong>Tools:</strong> VS Code, Git, GitHub, Postman
+                        </li>
+                      </ul>
                     </div>
                   </div>
+                </div>
 
-                  <!-- Back Side -->
+                <!-- flip card - UI/UX DESIGN -->
+                <div
+                  class="skill-item group min-w-[80vw] md:min-w-0 md:w-full max-w-[15.5rem] h-56 md:h-86 mx-auto [perspective:1000px] cursor-pointer"
+                >
                   <div
-                    class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-bl from-gray-600 to-stone-700 text-white [transform:rotateY(180deg)]"
+                    class="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
                   >
-                    <p class="text-sm px-4 flex flex-col gap-3">
-                      <span>
-                        <i class="bi bi-window-stack"></i>
-                        Frontend: <br />HTML, CSS, JavaScript, Tailwindcss.
-                      </span>
-                      <br />
-                      <span>
-                        <i class="bi bi-database"></i>
-                        Backend: <br />
-                        Node.js, Express, MySQL/PostgreSQL.
-                      </span>
-                      <br />
-                      <span>
-                        <i class="bi bi-tools"></i>
-                        Tools: <br />
-                        VS Code, Git, Github Postman.
-                      </span>
-                    </p>
+                    <!-- Front Side -->
+                    <div
+                      class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-tr from-gray-600 to-stone-700 border border-gray-200"
+                    >
+                      <div class="px-4">
+                        <div class="flex gap-2">
+                          <i class="bi bi-pc-display-horizontal text-3xl text-white"></i>
+                          <h4 class="text-[1.3rem] font-extrabold text-white py-3">UI/UX DESIGN</h4>
+                        </div>
+                        <p class="text-[.65rem] text-white text-justify">
+                          Designing aesthetic user interfaces (UI) and intuitive user experiences (UX) through research, user flows, and
+                          user-centered prototyping.
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- Back Side -->
+                    <div
+                      class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-bl from-gray-600 to-stone-700 text-white [transform:rotateY(180deg)]"
+                    >
+                      <ul class="text-sm px-4 space-y-2 text-left">
+                        <li>
+                          <i class="bi bi-diagram-3"></i>
+                          <strong>Core Skills:</strong> User Research, Wireframing, User Flow, IA, Prototyping
+                        </li>
+                        <li>
+                          <i class="bi bi-palette"></i>
+                          <strong>Visual:</strong> Design Systems, Typography, Color Theory, Responsive Design
+                        </li>
+                        <li>
+                          <i class="bi bi-tools"></i>
+                          <strong>Tools:</strong> Figma, Adobe XD, Sketch, Maze
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- flip card - Leadership & Management -->
+                <div
+                  class="skill-item group min-w-[80vw] md:min-w-0 md:w-full max-w-[15.5rem] h-56 md:h-86 mx-auto [perspective:1000px] cursor-pointer"
+                >
+                  <div
+                    class="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
+                  >
+                    <!-- Front Side -->
+                    <div
+                      class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-tr from-gray-600 to-stone-700 border border-gray-200"
+                    >
+                      <div class="px-4">
+                        <div class="flex gap-2 items-center">
+                          <i class="bi bi-people-fill text-3xl text-white"></i>
+                          <h4 class="text-[1.3rem] font-extrabold text-white py-3">Leadership & Management</h4>
+                        </div>
+                        <p class="text-[.65rem] text-white text-justify">
+                          Experienced in leading school organizations and city-level student forums. Focused on strategic decision-making,
+                          project management, and fostering effective team collaboration to achieve organizational goals.
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- Back Side -->
+                    <div
+                      class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-bl from-gray-600 to-stone-700 text-white [transform:rotateY(180deg)]"
+                    >
+                      <ul class="text-sm px-4 space-y-2 text-left">
+                        <li>
+                          <i class="bi-chat-right-dots"></i>
+                          <strong>Management:</strong> Public Speaking, Strategic Planning, Conflict Resolution
+                        </li>
+                        <li>
+                          <i class="bi-people-fill"></i>
+                          <strong>Leadership:</strong> Team Collaboration, Decision Making, Event Management
+                        </li>
+                        <li>
+                          <i class="bi-briefcase"></i>
+                          <strong>Organization:</strong> Project Coordination & Administrative Management
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- flip card - UI/UX DESIGN -->
-              <div class="group w-62 h-86 mx-auto [perspective:1000px] cursor-pointer">
-                <div
-                  class="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
-                >
-                  <!-- Front Side -->
-                  <div
-                    class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-tr from-gray-600 to-stone-700 border border-gray-200"
-                  >
-                    <div class="px-4">
-                      <div class="flex gap-2">
-                        <i class="bi bi-pc-display-horizontal text-3xl text-white"></i>
-                        <h4 class="text-[1.3rem] font-extrabold text-white py-3">UI/UX DESIGN</h4>
-                      </div>
-                      <p class="text-[.65rem] text-white text-justify">
-                        Designing aesthetic user interfaces (UI) and intuitive user experiences (UX) through research, user flows, and
-                        user-centered prototyping.
-                      </p>
-                    </div>
-                  </div>
-
-                  <!-- Back Side -->
-                  <div
-                    class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-bl from-gray-600 to-stone-700 text-white [transform:rotateY(180deg)]"
-                  >
-                    <p class="text-sm px-4 flex flex-col gap-3">
-                      <span>
-                        <i class="bi bi-diagram-3"></i> Core Skills: <br />
-                        User Research, Wireframing, User Flow, Information Architecture, Prototyping.
-                      </span>
-                      <br />
-                      <span>
-                        <i class="bi bi-palette"></i> Visual UI: <br />
-                        Design Systems, Typography, Color Theory, Responsive Design.
-                      </span>
-                      <br />
-                      <span>
-                        <i class="bi bi-tools"></i> Tools: <br />
-                        Figma, Adobe XD, Sketch, Maze (Usability Testing).
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- flip card - Leadership & Management -->
-              <div class="group w-62 h-86 mx-auto [perspective:1000px] cursor-pointer">
-                <div
-                  class="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
-                >
-                  <!-- Front Side -->
-                  <div
-                    class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-tr from-gray-600 to-stone-700 border border-gray-200"
-                  >
-                    <div class="px-4">
-                      <div class="flex gap-2 items-center">
-                        <i class="bi bi-people-fill text-3xl text-white"></i>
-                        <h4 class="text-[1.3rem] font-extrabold text-white py-3">Leadership & Management</h4>
-                      </div>
-                      <p class="text-[.65rem] text-white text-justify">
-                        Experienced in leading school organizations and city-level student forums. Focused on strategic decision-making,
-                        project management, and fostering effective team collaboration to achieve organizational goals.
-                      </p>
-                    </div>
-                  </div>
-
-                  <!-- Back Side -->
-                  <div
-                    class="absolute w-full h-full [backface-visibility:hidden] flex items-center justify-center rounded-md bg-gradient-to-bl from-gray-600 to-stone-700 text-white [transform:rotateY(180deg)]"
-                  >
-                    <p class="text-sm px-4 flex flex-col gap-3">
-                      <span>
-                        <i class="bi-chat-right-dots"></i> Management Skills: <br />
-                        Public Speaking, Strategic Planning, and Conflict Resolution.
-                      </span>
-                      <br />
-                      <span>
-                        <i class="bi-people-fill"></i> Leadership Focus: <br />
-                        Team Collaboration, Decision Making, and Event Management.
-                      </span>
-                      <br />
-                      <span>
-                        <i class="bi-briefcase"></i> Organizational Mastery: <br />
-                        Efficient Project Coordination and Administrative Management.
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <!-- Dots (mobile only) -->
+              <div id="skills-dots" class="flex justify-center gap-2 mt-4 md:hidden"></div>
 
               <!-- Experiences -->
-              <div class="col-span-2">
+              <div id="skills-experiences" class="md:col-span-2 mt-5 md:mt-0 max-h-34 md:max-h-72 overflow-y-auto pr-4 cursor-auto">
                 <div>
-                  <!-- <h3 class="text-2xl font-bold mb-6 col-span-full">Experiences</h3> -->
                   <ul class="list-disc list-inside space-y-4 text-xs text-gray-700">
                     <li class="flex justify-between items-center">
                       <span class="font-semibold">Banjarmasin City Student Ambassador 2025</span>August 2025 - Present
@@ -249,9 +251,20 @@
                     <li class="flex justify-between items-center">
                       <span class="font-semibold">Secretary 2 of the Forum OSIS Banjarmasin</span> July 2024 - Present
                     </li>
+                    <li class="flex justify-between items-center">
+                      <span class="font-semibold">Secretary 2 of the Forum OSIS Banjarmasin</span> July 2024 - Present
+                    </li>
+                    <li class="flex justify-between items-center">
+                      <span class="font-semibold">Secretary 2 of the Forum OSIS Banjarmasin</span> July 2024 - Present
+                    </li>
+                    <li class="flex justify-between items-center">
+                      <span class="font-semibold">Secretary 2 of the Forum OSIS Banjarmasin</span> July 2024 - Present
+                    </li>
+                    <li class="flex justify-between items-center">
+                      <span class="font-semibold">Secretary 2 of the Forum OSIS Banjarmasin</span> July 2024 - Present
+                    </li>
                   </ul>
                 </div>
-                <!-- end - Experiences -->
               </div>
             </div>
             <!-- end - Skills -->

@@ -53,7 +53,10 @@ body {
   visibility: hidden;
   opacity: 0;
   /* transition: visibility 0s, opacity 0.3s linear; */
-  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.2s;
+  transition:
+    opacity 0.2s ease,
+    transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+    visibility 0.2s;
 }
 
 .stack-section.active-section {
@@ -74,6 +77,84 @@ body {
 .project-card {
   flex-shrink: 0;
   user-select: none;
+}
+
+/* Skill carousel cards */
+.skill-card,
+.skill-item {
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Dots */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.15);
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+.dot.active {
+  background: #111;
+  transform: scale(1.08);
+}
+
+/* Small adjustments for the skills experiences list */
+#skills-experiences ul li {
+  align-items: flex-start;
+}
+#skills-experiences {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile carousel snap + sizing */
+#skills-carousel {
+  padding: 0 12px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.skill-item {
+  scroll-snap-align: center;
+  flex: 0 0 84%;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  #skills-carousel {
+    scroll-snap-type: none;
+    padding: 0;
+  }
+  .skill-item {
+    flex: initial;
+    min-width: 0;
+    margin-inline: 0;
+  }
+  .dot {
+    display: none;
+  }
+}
+
+/* Visible scrollbar for experiences container (overrides global hide) */
+#skills-experiences {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.22) transparent;
+}
+#skills-experiences::-webkit-scrollbar {
+  width: 10px;
+}
+#skills-experiences::-webkit-scrollbar-track {
+  background: transparent;
+}
+#skills-experiences::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+#skills-experiences:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.32);
 }
 
 /* Fix Mobile Menu */

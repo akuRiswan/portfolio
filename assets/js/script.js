@@ -286,6 +286,205 @@ document.addEventListener("DOMContentLoaded", () => {
     projectList.scrollBy({ left: 500, behavior: "smooth" });
   });
 
+  // --- SKILLS MOBILE CAROUSEL ---
+  (function initSkillsCarousel() {
+    const skillsCarousel = document.getElementById("skills-carousel");
+    const skillsDots = document.getElementById("skills-dots");
+    if (!skillsCarousel || !skillsDots) return;
+
+    const children = Array.from(skillsCarousel.querySelectorAll(".skill-item"));
+    if (!children.length) return;
+
+    // compute gap in px from computed style
+    const style = window.getComputedStyle(skillsCarousel);
+    const gapPx = parseFloat(style.gap) || parseFloat(style.columnGap) || 16;
+
+    // create dots
+    skillsDots.innerHTML = "";
+    children.forEach((_, i) => {
+      const btn = document.createElement("button");
+      btn.className = "dot";
+      btn.setAttribute("aria-label", `Go to card ${i + 1}`);
+      btn.addEventListener("click", () => {
+        const cardW = children[0].getBoundingClientRect().width + gapPx;
+        skillsCarousel.scrollTo({ left: i * cardW, behavior: "smooth" });
+      });
+      skillsDots.appendChild(btn);
+    });
+
+    const dots = Array.from(skillsDots.children);
+
+    function updateActiveDot() {
+      const cardW = children[0].getBoundingClientRect().width + gapPx;
+      const idx = Math.round(skillsCarousel.scrollLeft / cardW);
+      dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+    }
+
+    // snapping after scroll end
+    let snapTimer = null;
+    skillsCarousel.addEventListener("scroll", () => {
+      updateActiveDot();
+      if (snapTimer) clearTimeout(snapTimer);
+      snapTimer = setTimeout(() => {
+        const cardW = children[0].getBoundingClientRect().width + gapPx;
+        const idx = Math.round(skillsCarousel.scrollLeft / cardW);
+        skillsCarousel.scrollTo({ left: idx * cardW, behavior: "smooth" });
+      }, 120);
+    });
+
+    // pointer drag support
+    let down = false,
+      startX = 0,
+      startScroll = 0;
+    skillsCarousel.addEventListener("pointerdown", (e) => {
+      down = true;
+      skillsCarousel.classList.replace("cursor-grab", "cursor-grabbing");
+      startX = e.clientX;
+      startScroll = skillsCarousel.scrollLeft;
+      skillsCarousel.setPointerCapture(e.pointerId);
+    });
+    skillsCarousel.addEventListener("pointermove", (e) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      skillsCarousel.scrollLeft = startScroll - dx;
+    });
+    skillsCarousel.addEventListener("pointerup", (e) => {
+      down = false;
+      skillsCarousel.classList.replace("cursor-grabbing", "cursor-grab");
+    });
+    skillsCarousel.addEventListener("pointercancel", () => {
+      down = false;
+      skillsCarousel.classList.replace("cursor-grabbing", "cursor-grab");
+    });
+
+    // initial
+    updateActiveDot();
+    // Autoplay (mobile only)
+    let autoplayInterval = null;
+    const autoplayDelay = 3500;
+
+    function startAutoplay() {
+      if (window.innerWidth >= 768) return;
+      if (autoplayInterval) clearInterval(autoplayInterval);
+      autoplayInterval = setInterval(() => {
+        const cardW = children[0].getBoundingClientRect().width + gapPx;
+        const idx = Math.round(skillsCarousel.scrollLeft / cardW);
+        const next = (idx + 1) % children.length;
+        skillsCarousel.scrollTo({ left: next * cardW, behavior: "smooth" });
+        updateActiveDot();
+      }, autoplayDelay);
+    }
+
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    }
+
+    // pause while interacting
+    skillsCarousel.addEventListener("pointerdown", () => stopAutoplay());
+    skillsCarousel.addEventListener("pointerup", () => setTimeout(() => startAutoplay(), 900));
+    skillsCarousel.addEventListener("mouseenter", () => stopAutoplay());
+    skillsCarousel.addEventListener("mouseleave", () => setTimeout(() => startAutoplay(), 900));
+
+    startAutoplay();
+    window.addEventListener("resize", () => {
+      updateActiveDot();
+      if (window.innerWidth < 768) startAutoplay();
+      else stopAutoplay();
+    });
+  })();
+
+  // Enable internal scrolling for experiences list and prevent page snap while interacting
+  (function enableExperiencesScroll() {
+    const exp = document.getElementById("skills-experiences");
+    if (!exp) return;
+
+    // Wheel (desktop) - steal wheel and scroll the element
+    exp.addEventListener(
+      "wheel",
+      (e) => {
+        if (exp.scrollHeight <= exp.clientHeight) return; // nothing to do
+        e.preventDefault();
+        exp.scrollTop += e.deltaY;
+      },
+      { passive: false },
+    );
+
+    // Touch (mobile) - custom handling to prevent body scroll when inside
+    let touchStartY = 0;
+    exp.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches && e.touches[0]) touchStartY = e.touches[0].clientY;
+        disableAutoSnap = true;
+      },
+      { passive: true },
+    );
+
+    exp.addEventListener(
+      "touchmove",
+      (e) => {
+        if (exp.scrollHeight <= exp.clientHeight) return;
+        const curY = e.touches[0].clientY;
+        const dy = curY - touchStartY;
+        const atTop = exp.scrollTop <= 0;
+        const atBottom = exp.scrollTop + exp.clientHeight >= exp.scrollHeight - 1;
+
+        // If trying to scroll past top or bottom, allow page to handle it; otherwise prevent default and scroll element
+        if ((atTop && dy > 0) || (atBottom && dy < 0)) {
+          // allow body scroll
+          return;
+        }
+        e.preventDefault();
+        exp.scrollTop -= dy;
+        touchStartY = curY;
+      },
+      { passive: false },
+    );
+
+    exp.addEventListener("touchend", () => {
+      setTimeout(() => (disableAutoSnap = false), 120);
+    });
+
+    // Pointer drag support for experiences (desktop + pointer devices)
+    let isDownExp = false;
+    let startYExp = 0;
+    let startScrollExp = 0;
+
+    exp.addEventListener("pointerdown", (e) => {
+      if (exp.scrollHeight <= exp.clientHeight) return;
+      isDownExp = true;
+      startYExp = e.clientY;
+      startScrollExp = exp.scrollTop;
+      try {
+        exp.setPointerCapture && exp.setPointerCapture(e.pointerId);
+      } catch (err) {}
+      exp.classList.replace("cursor-grab", "cursor-grabbing");
+      disableAutoSnap = true;
+    });
+
+    exp.addEventListener("pointermove", (e) => {
+      if (!isDownExp) return;
+      const dy = e.clientY - startYExp;
+      exp.scrollTop = startScrollExp - dy;
+    });
+
+    function endExpDrag(e) {
+      if (!isDownExp) return;
+      isDownExp = false;
+      try {
+        exp.releasePointerCapture && exp.releasePointerCapture(e && e.pointerId);
+      } catch (err) {}
+      exp.classList.replace("cursor-grabbing", "cursor-grab");
+      setTimeout(() => (disableAutoSnap = false), 120);
+    }
+
+    exp.addEventListener("pointerup", endExpDrag);
+    exp.addEventListener("pointercancel", endExpDrag);
+  })();
+
   // --- STACKING ANIMATION LOGIC ---
   let animationDistance;
   let ticking = false;
