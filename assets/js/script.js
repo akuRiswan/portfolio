@@ -1,3 +1,31 @@
+// Data certificate
+const certificate = [
+  {
+    title: "Running Text Arduino",
+    desc: "An Arduino-based system designed to display and manage scrolling text on LED matrix modules.",
+    img: "assets/img/running-text-arduino.jpg",
+    link: "https://i.ibb.co.com/SDTPQm3L/running-text-arduino.jpg",
+  },
+];
+function renderCertificate() {
+  const containerC = document.getElementById("certificate-list");
+  if (!containerC) return;
+  containerC.innerHTML = certificate
+    .map(
+      (p) => `
+    <a href="${p.link}" target="_blank" class="certificate-card mt-8 min-w-[60vw] md:min-w-[500px] group relative overflow-hidden rounded-3xl h-[30vh] lg:h-[30vh] bg-gray-100 block z-100">
+      <img src="${p.img}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" draggable="false" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-8 flex flex-col justify-end text-white">
+        <h3 class="text-2xl font-bold tracking-tight">${p.title}</h3>
+        <p class="text-xs opacity-60 line-clamp-2">${p.desc}</p>
+      </div>
+    </a>
+  `,
+    )
+    .join("");
+}
+
+// Data project
 const projects = [
   // {
   //   title: "Running Text Arduino",
@@ -24,7 +52,7 @@ function renderProjects() {
   container.innerHTML = projects
     .map(
       (p) => `
-    <a href="${p.link}" target="_blank" class="project-card min-w-[75vw] md:min-w-[400px] group relative overflow-hidden rounded-3xl h-[45vh] lg:h-[50vh] bg-gray-100 block z-100">
+    <a href="${p.link}" target="_blank" class="project-card min-w-[85vw] md:min-w-[500px] group relative overflow-hidden rounded-3xl h-[40vh] lg:h-[40vh] bg-gray-100 block z-100">
       <img src="${p.img}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" draggable="false" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-8 flex flex-col justify-end text-white">
         <h3 class="text-2xl font-bold tracking-tight">${p.title}</h3>
@@ -122,6 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     document.head.appendChild(s);
   }
+  // render certificate and project lists
+  renderCertificate();
   renderProjects();
 
   const wrapper = document.getElementById("pin-wrapper");
@@ -605,7 +635,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // close mobile menu when navigating
         closeMobileMenu();
 
-        const idx = ["#home", "#aboutme", "#skills", "#project", "#contact"].indexOf(targetId);
+        const idx = ["#home", "#aboutme", "#experiences", "#skills", "#project", "#contact"].indexOf(targetId);
         if (idx >= 0) {
           disableAutoSnap = true;
           const targetScroll = idx * (animationDistance / (sections.length - 1));
