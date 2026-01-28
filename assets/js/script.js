@@ -4,7 +4,7 @@ const certificate = [
     title: "Running Text Arduino",
     desc: "An Arduino-based system designed to display and manage scrolling text on LED matrix modules.",
     img: "assets/img/running-text-arduino.jpg",
-    link: "https://i.ibb.co.com/SDTPQm3L/running-text-arduino.jpg",
+    link: "assets/certificate/certificate.html",
   },
 ];
 function renderCertificate() {
@@ -13,7 +13,7 @@ function renderCertificate() {
   containerC.innerHTML = certificate
     .map(
       (p) => `
-    <a href="${p.link}" target="_blank" class="certificate-card mt-8 min-w-[60vw] md:min-w-[500px] group relative overflow-hidden rounded-3xl h-[30vh] lg:h-[30vh] bg-gray-100 block z-100">
+    <a href="${p.link}" target="_blank" class="certificate-card mt-8 min-w-[80vw] md:min-w-[500px] group relative overflow-hidden rounded-3xl h-[30vh] lg:h-[30vh] bg-gray-100 block z-100">
       <img src="${p.img}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" draggable="false" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-8 flex flex-col justify-end text-white">
         <h3 class="text-2xl font-bold tracking-tight">${p.title}</h3>
